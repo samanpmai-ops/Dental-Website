@@ -546,24 +546,36 @@
   }
   initFadeIn();
 
-  // Voice widget toggle
+  // Hide LeadConnector's default launcher once it injects into the DOM,
+  // so only our custom voice button is visible.
+  const lcObserver=new MutationObserver(()=>{
+    const lcBtn=document.querySelector('[class*="chat-launcher"],[class*="chat-button"],[class*="lc-launcher"],[id*="chat-widget"] button:last-of-type');
+    if(lcBtn){lcBtn.style.setProperty('display','none','important');lcObserver.disconnect();}
+  });
+  lcObserver.observe(document.body,{childList:true,subtree:true});
+
+  // Voice widget toggle — opens/closes the LeadConnector widget
   let voiceActive=false;
+  function triggerLCWidget(){
+    // Try known LeadConnector/GHL global APIs first
+    if(window.LeadConnectorChat&&window.LeadConnectorChat.open){window.LeadConnectorChat.open();return;}
+    if(window.GHL_CHAT&&window.GHL_CHAT.open){window.GHL_CHAT.open();return;}
+    // Fall back to clicking the widget's own launcher button
+    const sel='[class*="chat-launcher"],[class*="chat-button"],[class*="lc-launcher"],[data-widget-id] button,[id*="chat-widget"] button';
+    const lcBtn=document.querySelector(sel);
+    if(lcBtn){lcBtn.style.removeProperty('display');lcBtn.click();lcBtn.style.setProperty('display','none','important');}
+  }
   function toggleVoice(){
     voiceActive=!voiceActive;
     const btn=document.getElementById('voiceBtn');
     if(voiceActive){
       btn.classList.add('active');
       btn.innerHTML='<div class="voice-ring"></div>⏹️';
-      // TODO: Initialize your voice agent SDK here
-      // e.g. VoiceAgent.start({ agentId: 'YOUR_AGENT_ID' });
-      console.log('Voice agent started — integrate your SDK here');
     } else {
       btn.classList.remove('active');
       btn.innerHTML='<div class="voice-ring"></div>🎙️';
-      // TODO: Stop your voice agent SDK here
-      // e.g. VoiceAgent.stop();
-      console.log('Voice agent stopped');
     }
+    triggerLCWidget();
   }
 
   // Form submission
