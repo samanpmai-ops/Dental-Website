@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Denta – Modern Dental Care</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#1a0a00;--primary:#c0390a;--accent:#e8500f;--warm:#f07030;
+    --text:#fff;--muted:#c8a090;--card:#2a1208;--border:rgba(255,255,255,0.08);
+  }
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 48px;background:rgba(26,10,0,0.7);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+  .logo{display:flex;align-items:center;gap:10px;font-size:1.3rem;font-weight:700;letter-spacing:-0.5px;}
+  .logo-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+  .nav-links{display:flex;gap:36px;list-style:none;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:0.9rem;letter-spacing:0.3px;transition:color .2s;}
+  .nav-links a:hover{color:#fff;}
+  .nav-links a::before{content:'• ';color:var(--accent);}
+  .nav-cta{background:transparent;border:1px solid rgba(255,255,255,0.3);color:#fff;padding:10px 22px;border-radius:6px;cursor:pointer;font-size:0.9rem;transition:all .2s;}
+  .nav-cta:hover{background:var(--accent);border-color:var(--accent);}
+
+  /* HERO */
+  #home{min-height:100vh;display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;padding:100px 48px 60px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 40%, #8b2500 0%, #3d0e00 45%, #1a0a00 100%);}
+  .hero-left{z-index:2;}
+  .hero-tagline{color:var(--muted);font-size:0.95rem;line-height:1.7;margin-bottom:48px;max-width:260px;}
+  .hero-heading{font-size:clamp(3rem,6vw,5.5rem);font-weight:800;line-height:1.05;letter-spacing:-2px;grid-column:1/-1;position:absolute;bottom:100px;left:48px;}
+  .hero-heading span{color:var(--warm);}
+  .hero-heading strong{color:#fff;}
+  .hero-center{display:flex;justify-content:center;align-items:center;position:relative;}
+  .tooth-3d{width:260px;height:360px;position:relative;margin:0 auto;}
+  .tooth-body{width:110px;height:130px;background:radial-gradient(ellipse at 35% 30%,#fff 0%,#f0e8e0 40%,#d4c4b0 100%);border-radius:50% 50% 35% 35%;position:absolute;top:0;left:50%;transform:translateX(-50%);box-shadow:0 20px 60px rgba(200,80,10,0.6),inset -10px -10px 20px rgba(0,0,0,0.1);}
+  .tooth-root{width:18px;height:90px;background:linear-gradient(180deg,#c8a000,#8b6000,#4a3000);border-radius:2px 2px 6px 6px;position:absolute;bottom:30px;left:50%;transform:translateX(-50%);box-shadow:0 10px 30px rgba(200,140,0,0.4);}
+  .tooth-screw{width:18px;height:90px;position:absolute;bottom:30px;left:50%;transform:translateX(-50%);}
+  .screw-line{width:100%;height:4px;background:rgba(255,200,0,0.3);margin-bottom:7px;border-radius:2px;}
+  .glow-ring{width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(230,100,20,0.3) 0%,transparent 70%);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:pulse 3s infinite;}
+  @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.6;}50%{transform:translate(-50%,-50%) scale(1.2);opacity:1;}}
+  .hero-right{z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:24px;}
+  .hero-right-text{color:var(--muted);font-size:1.1rem;line-height:1.6;text-align:right;max-width:220px;}
+  .doctor-cards{display:flex;gap:12px;margin-top:16px;}
+  .doc-card{width:110px;border-radius:12px;overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer;transition:transform .2s;}
+  .doc-card:hover{transform:translateY(-4px);}
+  .doc-avatar{width:100%;height:90px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:linear-gradient(135deg,#3d1500,#7a2a00);}
+  .doc-name{padding:8px;font-size:0.72rem;color:var(--muted);}
+  .hero-bottom{position:absolute;bottom:32px;left:48px;right:48px;display:flex;justify-content:space-between;color:var(--muted);font-size:0.8rem;}
+  .hero-bottom span{display:flex;flex-direction:column;gap:2px;}
+  .hero-bottom strong{color:#fff;font-size:0.85rem;}
+
+  /* SECTIONS COMMON */
+  section{padding:100px 48px;}
+  .section-label{color:var(--accent);font-size:0.8rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;}
+  .section-title{font-size:clamp(2rem,4vw,3.2rem);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:16px;}
+  .section-sub{color:var(--muted);font-size:1rem;max-width:480px;line-height:1.7;}
+  .divider{width:60px;height:3px;background:var(--accent);border-radius:2px;margin:24px 0;}
+
+  /* SERVICES */
+  #services{background:linear-gradient(180deg,#1a0a00,#0f0500);}
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:56px;}
+  .service-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;transition:all .3s;cursor:default;position:relative;overflow:hidden;}
+  .service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,60,10,0.08),transparent);opacity:0;transition:opacity .3s;}
+  .service-card:hover{border-color:rgba(200,80,20,0.4);transform:translateY(-4px);}
+  .service-card:hover::before{opacity:1;}
+  .service-icon{font-size:2.2rem;margin-bottom:20px;display:block;}
+  .service-card h3{font-size:1.15rem;font-weight:700;margin-bottom:10px;}
+  .service-card p{color:var(--muted);font-size:0.88rem;line-height:1.6;}
+  .service-tag{display:inline-block;margin-top:16px;padding:4px 12px;background:rgba(200,60,10,0.15);border:1px solid rgba(200,60,10,0.3);border-radius:20px;font-size:0.75rem;color:var(--warm);}
+
+  /* STATS */
+  .stats-bar{background:var(--primary);padding:40px 48px;display:flex;justify-content:space-around;flex-wrap:wrap;gap:32px;}
+  .stat{text-align:center;}
+  .stat-num{font-size:2.5rem;font-weight:800;letter-spacing:-1px;}
+  .stat-label{color:rgba(255,255,255,0.7);font-size:0.8rem;margin-top:4px;}
+
+  /* TEAM */
+  #team{background:#0f0500;}
+  .team-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;flex-wrap:wrap;gap:24px;}
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;}
+  .team-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .3s;}
+  .team-card:hover{transform:translateY(-6px);}
+  .team-photo{height:200px;display:flex;align-items:center;justify-content:center;font-size:4rem;background:linear-gradient(135deg,#3d1500 0%,#7a2a00 100%);}
+  .team-info{padding:20px;}
+  .team-info h3{font-size:1rem;font-weight:700;}
+  .team-info p{color:var(--muted);font-size:0.82rem;margin-top:4px;}
+  .team-badge{margin-top:12px;display:inline-block;padding:3px 10px;background:rgba(200,60,10,0.2);border-radius:20px;font-size:0.72rem;color:var(--warm);border:1px solid rgba(200,60,10,0.3);}
+
+  /* PRICING */
+  #pricing{background:linear-gradient(180deg,#0f0500,#1a0a00);}
+  .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:56px;}
+  .price-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px;transition:all .3s;}
+  .price-card.featured{background:linear-gradient(135deg,#8b2500,#c0390a);border-color:var(--accent);}
+  .price-card:hover{transform:translateY(-4px);}
+  .price-name{font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+  .price-card.featured .price-name{color:rgba(255,255,255,0.7);}
+  .price-amount{font-size:3rem;font-weight:800;letter-spacing:-2px;}
+  .price-amount span{font-size:1rem;font-weight:400;color:var(--muted);}
+  .price-card.featured .price-amount span{color:rgba(255,255,255,0.7);}
+  .price-divider{height:1px;background:var(--border);margin:24px 0;}
+  .price-features{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .price-features li{font-size:0.88rem;color:var(--muted);display:flex;gap:10px;align-items:flex-start;}
+  .price-card.featured .price-features li{color:rgba(255,255,255,0.8);}
+  .price-features li::before{content:'✓';color:var(--warm);font-weight:700;flex-shrink:0;}
+  .price-btn{width:100%;margin-top:28px;padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;font-size:0.9rem;cursor:pointer;transition:all .2s;}
+  .price-card.featured .price-btn{background:#fff;color:#8b2500;border-color:#fff;font-weight:700;}
+  .price-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+  /* CONTACT */
+  #contact{background:#0f0500;}
+  .contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:64px;margin-top:56px;align-items:start;}
+  .contact-info{display:flex;flex-direction:column;gap:32px;}
+  .contact-item{display:flex;gap:16px;align-items:flex-start;}
+  .contact-icon{width:44px;height:44px;border-radius:10px;background:rgba(200,60,10,0.15);border:1px solid rgba(200,60,10,0.3);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+  .contact-item h4{font-size:0.9rem;font-weight:600;margin-bottom:4px;}
+  .contact-item p{color:var(--muted);font-size:0.85rem;line-height:1.5;}
+  .contact-form{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:20px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .form-group{display:flex;flex-direction:column;gap:8px;}
+  .form-group label{font-size:0.8rem;color:var(--muted);letter-spacing:.5px;}
+  .form-group input,.form-group select,.form-group textarea{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:#fff;font-size:0.9rem;outline:none;transition:border-color .2s;font-family:inherit;}
+  .form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,0.2);}
+  .form-group select option{background:#2a1208;}
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);}
+  .form-group textarea{resize:vertical;min-height:100px;}
+  .submit-btn{padding:16px;background:linear-gradient(135deg,var(--primary),var(--accent));border:none;border-radius:10px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s;letter-spacing:.5px;}
+  .submit-btn:hover{opacity:.85;}
+  .success-msg{display:none;text-align:center;padding:16px;background:rgba(50,200,100,0.1);border:1px solid rgba(50,200,100,0.3);border-radius:10px;color:#6eda8f;font-size:0.9rem;}
+
+  /* FOOTER */
+  footer{background:#080300;padding:48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;}
+  .footer-logo{font-size:1.2rem;font-weight:800;}
+  .footer-links{display:flex;gap:24px;}
+  .footer-links a{color:var(--muted);text-decoration:none;font-size:0.85rem;transition:color .2s;}
+  .footer-links a:hover{color:#fff;}
+  .footer-copy{color:var(--muted);font-size:0.8rem;}
+
+  /* VOICE WIDGET */
+  .voice-widget{position:fixed;bottom:32px;right:32px;z-index:200;display:flex;flex-direction:column;align-items:flex-end;gap:12px;}
+  .voice-tooltip{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;font-size:0.82rem;color:var(--muted);max-width:200px;text-align:center;display:none;animation:fadeUp .3s ease;}
+  .voice-widget:hover .voice-tooltip{display:block;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  .voice-btn{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 8px 32px rgba(200,60,10,0.5);transition:transform .2s,box-shadow .2s;position:relative;}
+  .voice-btn:hover{transform:scale(1.1);box-shadow:0 12px 40px rgba(200,60,10,0.7);}
+  .voice-btn.active{animation:voicePulse 1.5s infinite;}
+  @keyframes voicePulse{0%,100%{box-shadow:0 8px 32px rgba(200,60,10,0.5),0 0 0 0 rgba(200,60,10,0.4);}50%{box-shadow:0 8px 32px rgba(200,60,10,0.5),0 0 0 18px rgba(200,60,10,0);}}
+  .voice-ring{position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--accent);opacity:0;animation:ringExpand 2s infinite;}
+  @keyframes ringExpand{0%{transform:scale(1);opacity:.6;}100%{transform:scale(1.4);opacity:0;}}
+
+  /* SCROLL FADE */
+  .fade-in{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+  .fade-in.visible{opacity:1;transform:translateY(0);}
+
+  /* PAGE SECTIONS */
+  .page{display:none;}
+  .page.active{display:block;}
+
+  @media(max-width:768px){
+    nav{padding:16px 24px;}
+    .nav-links{display:none;}
+    #home{grid-template-columns:1fr;padding:100px 24px 60px;text-align:center;}
+    .hero-right{align-items:center;}
+    .hero-bottom{flex-direction:column;gap:12px;}
+    section{padding:64px 24px;}
+    .contact-grid{grid-template-columns:1fr;}
+    .form-row{grid-template-columns:1fr;}
+    footer{flex-direction:column;text-align:center;}
+    .stats-bar{padding:32px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="showPage('home')" style="cursor:pointer">
+    <div class="logo-icon">🦷</div>
+    Denta
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services" onclick="showPage('home')">Services</a></li>
+    <li><a href="#team" onclick="showPage('home')">Our Team</a></li>
+    <li><a href="#pricing" onclick="showPage('home')">Price</a></li>
+    <li><a href="#contact" onclick="showPage('contact')">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('contact')">Book Appointment</button>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-left">
+      <p class="hero-tagline">From preventive care<br>to complex restorations,<br>a comprehensive approach<br>to your dental health.</p>
+    </div>
+    <div class="hero-center">
+      <div class="tooth-3d">
+        <div class="glow-ring"></div>
+        <div style="position:relative;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div class="tooth-body"></div>
+          <div style="width:22px;height:8px;background:linear-gradient(90deg,#4a3000,#8b6000,#4a3000);border-radius:2px;margin-top:128px;position:relative;z-index:2;"></div>
+          <div style="position:relative;width:22px;">
+            <div style="width:22px;height:100px;background:linear-gradient(180deg,#b8880a,#7a5500,#3a2800);border-radius:2px 2px 8px 8px;box-shadow:0 10px 40px rgba(180,120,0,0.5);">
+              <div style="display:flex;flex-direction:column;gap:8px;padding:6px 3px;">
+                <div style="height:3px;background:rgba(0,0,0,0.3);border-radius:2px;"></div>
+                <div style="height:3px;background:rgba(0,0,0,0.3);border-radius:2px;"></div>
+                <div style="height:3px;background:rgba(0,0,0,0.3);border-radius:2px;"></div>
+                <div style="height:3px;background:rgba(0,0,0,0.3);border-radius:2px;"></div>
+                <div style="height:3px;background:rgba(0,0,0,0.3);border-radius:2px;"></div>
+                <div style="height:3px;background:rgba(0,0,0,0.3);border-radius:2px;"></div>
+                <div style="height:3px;background:rgba(0,0,0,0.3);border-radius:2px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <p class="hero-right-text">Select from our team<br>of highly skilled and<br>experienced dentists</p>
+      <div class="doctor-cards">
+        <div class="doc-card">
+          <div class="doc-avatar">👩‍⚕️</div>
+          <div class="doc-name">Dr. Clara Collins</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-avatar">👨‍⚕️</div>
+          <div class="doc-name">Dr. Mason Lee</div>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:60px;left:48px;right:48px;">
+      <h1 style="font-size:clamp(3rem,7vw,6rem);font-weight:900;line-height:1;letter-spacing:-3px;color:rgba(255,255,255,0.15);">
+        <span style="color:var(--warm);">Modern<br>Care for</span><br>
+        a <strong style="color:#fff;">Perfect<br>Smile</strong>
+      </h1>
+    </div>
+    <div class="hero-bottom">
+      <span><strong>Best Dentistry 2025</strong>Award Winner</span>
+      <span><strong>Advanced Dental</strong>Technologies</span>
+      <span><strong>10,000+</strong>Happy Patients</span>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">10K+</div><div class="stat-label">Patients Treated</div></div>
+    <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Years of Excellence</div></div>
+    <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Satisfaction Rate</div></div>
+    <div class="stat"><div class="stat-num">24</div><div class="stat-label">Expert Dentists</div></div>
+    <div class="stat"><div class="stat-num">12</div><div class="stat-label">Specializations</div></div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="fade-in">
+      <p class="section-label">What We Offer</p>
+      <h2 class="section-title">Comprehensive<br>Dental Services</h2>
+      <div class="divider"></div>
+      <p class="section-sub">State-of-the-art treatments tailored to your unique dental needs, from routine care to advanced procedures.</p>
+    </div>
+    <div class="services-grid fade-in">
+      <div class="service-card">
+        <span class="service-icon">🦷</span>
+        <h3>Dental Implants</h3>
+        <p>Permanent, natural-looking tooth replacements using titanium implants with ceramic crowns.</p>
+        <span class="service-tag">Most Popular</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">✨</span>
+        <h3>Teeth Whitening</h3>
+        <p>Professional-grade whitening treatments for a brighter, more confident smile in a single visit.</p>
+        <span class="service-tag">Quick Results</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🛡️</span>
+        <h3>Preventive Care</h3>
+        <p>Routine cleanings, X-rays, and sealants to maintain optimal oral health and prevent future issues.</p>
+        <span class="service-tag">Recommended</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">😁</span>
+        <h3>Orthodontics</h3>
+        <p>Clear aligners and traditional braces to correct misalignment and achieve perfect dental symmetry.</p>
+        <span class="service-tag">Adults & Kids</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🔬</span>
+        <h3>Root Canal</h3>
+        <p>Pain-free root canal therapy using advanced techniques and same-day digital imaging.</p>
+        <span class="service-tag">Pain Free</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">💎</span>
+        <h3>Veneers</h3>
+        <p>Custom porcelain veneers to reshape, resize, and perfect the appearance of your teeth.</p>
+        <span class="service-tag">Cosmetic</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" style="background:#0f0500;">
+    <div class="team-header fade-in">
+      <div>
+        <p class="section-label">Our Specialists</p>
+        <h2 class="section-title">Meet the<br>Expert Team</h2>
+        <div class="divider"></div>
+      </div>
+      <p class="section-sub" style="max-width:320px;">Highly trained professionals dedicated to your dental health and comfort.</p>
+    </div>
+    <div class="team-grid fade-in">
+      <div class="team-card">
+        <div class="team-photo">👩‍⚕️</div>
+        <div class="team-info">
+          <h3>Dr. Clara Collins</h3>
+          <p>Lead Implantologist</p>
+          <span class="team-badge">Implants · Restorations</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-photo">👨‍⚕️</div>
+        <div class="team-info">
+          <h3>Dr. Mason Lee</h3>
+          <p>Cosmetic Dentist</p>
+          <span class="team-badge">Veneers · Whitening</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-photo">👩‍⚕️</div>
+        <div class="team-info">
+          <h3>Dr. Sofia Ramos</h3>
+          <p>Orthodontist</p>
+          <span class="team-badge">Braces · Aligners</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-photo">👨‍⚕️</div>
+        <div class="team-info">
+          <h3>Dr. James Park</h3>
+          <p>Endodontist</p>
+          <span class="team-badge">Root Canal · Surgery</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="fade-in">
+      <p class="section-label">Transparent Pricing</p>
+      <h2 class="section-title">Simple,<br>Clear Plans</h2>
+      <div class="divider"></div>
+      <p class="section-sub">No hidden fees. Choose the plan that fits your dental care needs.</p>
+    </div>
+    <div class="pricing-grid fade-in">
+      <div class="price-card">
+        <div class="price-name">Basic Care</div>
+        <div class="price-amount">$49<span>/month</span></div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>2 routine cleanings/year</li>
+          <li>Annual X-rays</li>
+          <li>Fluoride treatment</li>
+          <li>10% discount on treatments</li>
+        </ul>
+        <button class="price-btn" onclick="showPage('contact')">Get Started</button>
+      </div>
+      <div class="price-card featured">
+        <div class="price-name">✦ Premium Care</div>
+        <div class="price-amount">$119<span>/month</span></div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>4 cleanings/year</li>
+          <li>Full digital X-rays</li>
+          <li>1 whitening session</li>
+          <li>Emergency appointments</li>
+          <li>25% discount on treatments</li>
+          <li>Priority scheduling</li>
+        </ul>
+        <button class="price-btn" onclick="showPage('contact')">Book Now</button>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Family Plan</div>
+        <div class="price-amount">$199<span>/month</span></div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Up to 4 family members</li>
+          <li>All Premium features</li>
+          <li>Orthodontic consultations</li>
+          <li>Kids sealants included</li>
+          <li>30% discount on all care</li>
+        </ul>
+        <button class="price-btn" onclick="showPage('contact')">Get Started</button>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page-home -->
+
+<!-- CONTACT PAGE -->
+<div id="page-contact" class="page">
+  <section id="contact" style="padding-top:140px;min-height:100vh;background:linear-gradient(180deg,#1a0a00,#0f0500);">
+    <div class="fade-in">
+      <p class="section-label">Get In Touch</p>
+      <h2 class="section-title">Schedule Your<br>Appointment</h2>
+      <div class="divider"></div>
+      <p class="section-sub">Book a visit with one of our specialists. We'll confirm your appointment within 24 hours.</p>
+    </div>
+    <div class="contact-grid fade-in">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h4>Our Location</h4>
+            <p>123 Smile Avenue, Suite 400<br>Barcelona, Spain 08001</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <p>+34 93 000 0000<br>Mon–Sat, 8AM – 8PM</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <p>hello@dentaclinic.com<br>We reply within 2 hours</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <h4>Working Hours</h4>
+            <p>Monday – Friday: 8AM – 8PM<br>Saturday: 9AM – 5PM<br>Sunday: Emergency only</p>
+          </div>
+        </div>
+        <div style="margin-top:16px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;">
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px;">Or speak to our AI assistant instantly</p>
+          <button onclick="toggleVoice()" style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--primary),var(--accent));border:none;border-radius:10px;padding:14px 20px;color:#fff;font-size:0.9rem;cursor:pointer;width:100%;font-weight:600;">
+            <span style="font-size:1.3rem;">🎙️</span> Talk to Voice Assistant
+          </button>
+        </div>
+      </div>
+      <div class="contact-form">
+        <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:8px;">Book an Appointment</h3>
+        <p style="color:var(--muted);font-size:0.85rem;margin-bottom:8px;">Fill in your details and we'll get back to you shortly.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>FIRST NAME</label>
+            <input type="text" placeholder="John"/>
+          </div>
+          <div class="form-group">
+            <label>LAST NAME</label>
+            <input type="text" placeholder="Doe"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>EMAIL</label>
+            <input type="email" placeholder="john@email.com"/>
+          </div>
+          <div class="form-group">
+            <label>PHONE</label>
+            <input type="tel" placeholder="+1 000 000 0000"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>SERVICE NEEDED</label>
+          <select>
+            <option value="">Select a service...</option>
+            <option>Dental Implants</option>
+            <option>Teeth Whitening</option>
+            <option>Preventive Cleaning</option>
+            <option>Orthodontics / Aligners</option>
+            <option>Root Canal</option>
+            <option>Veneers</option>
+            <option>General Checkup</option>
+            <option>Emergency Visit</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>PREFERRED DATE</label>
+            <input type="date"/>
+          </div>
+          <div class="form-group">
+            <label>PREFERRED TIME</label>
+            <select>
+              <option>Morning (8AM–12PM)</option>
+              <option>Afternoon (12PM–4PM)</option>
+              <option>Evening (4PM–8PM)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>ADDITIONAL NOTES</label>
+          <textarea placeholder="Any specific concerns or information for your dentist..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="submitForm()">Confirm Appointment →</button>
+        <div class="success-msg" id="successMsg">✅ Your appointment request has been received! We'll confirm within 24 hours.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🦷 Denta</div>
+  <div class="footer-links">
+    <a href="#" onclick="showPage('home')">Home</a>
+    <a href="#services" onclick="showPage('home')">Services</a>
+    <a href="#team" onclick="showPage('home')">Team</a>
+    <a href="#pricing" onclick="showPage('home')">Pricing</a>
+    <a href="#" onclick="showPage('contact')">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 Denta Clinic. All rights reserved.</div>
+</footer>
+
+<!-- VOICE AGENT WIDGET -->
+<div class="voice-widget">
+  <div class="voice-tooltip">🎙️ Talk to our AI dental assistant — ask about services, pricing, or book an appointment!</div>
+  <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()" title="Voice Assistant">
+    <div class="voice-ring"></div>
+    🎙️
+  </button>
+</div>
+
+<script>
+  // Page switching
+  function showPage(name){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page-'+name).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    setTimeout(initFadeIn,100);
+  }
+
+  // Scroll fade-in observer
+  function initFadeIn(){
+    const els=document.querySelectorAll('.fade-in:not(.visible)');
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+    },{threshold:0.1});
+    els.forEach(el=>obs.observe(el));
+  }
+  initFadeIn();
+
+  // Voice widget toggle
+  let voiceActive=false;
+  function toggleVoice(){
+    voiceActive=!voiceActive;
+    const btn=document.getElementById('voiceBtn');
+    if(voiceActive){
+      btn.classList.add('active');
+      btn.innerHTML='<div class="voice-ring"></div>⏹️';
+      // TODO: Initialize your voice agent SDK here
+      // e.g. VoiceAgent.start({ agentId: 'YOUR_AGENT_ID' });
+      console.log('Voice agent started — integrate your SDK here');
+    } else {
+      btn.classList.remove('active');
+      btn.innerHTML='<div class="voice-ring"></div>🎙️';
+      // TODO: Stop your voice agent SDK here
+      // e.g. VoiceAgent.stop();
+      console.log('Voice agent stopped');
+    }
+  }
+
+  // Form submission
+  function submitForm(){
+    const msg=document.getElementById('successMsg');
+    msg.style.display='block';
+    setTimeout(()=>msg.style.display='none',5000);
+  }
+
+  // Live clock in hero (if on home)
+  function updateClock(){
+    const el=document.getElementById('liveClock');
+    if(el){
+      const now=new Date();
+      el.textContent=now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' GMT+1';
+    }
+  }
+  setInterval(updateClock,1000);
+</script>
+</body>
+</html>
